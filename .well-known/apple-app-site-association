@@ -1,0 +1,11 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "5CN4RHPS4M.nl.designforthepeople.seintje",
+                "paths": ["/share/*"]
+            }
+        ]
+    }
+}

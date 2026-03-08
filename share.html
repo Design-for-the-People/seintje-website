@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seintje ontvangen</title>
+    <meta name="description" content="Je hebt een Seintje ontvangen! Open in de app of download Seintje.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Je hebt een Seintje ontvangen!">
+    <meta property="og:description" content="Open in de Seintje app om deze herinnering over te nemen.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://seintje.eu">
+
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --accent: #FF3B6F;
+            --accent-light: #FFF0F3;
+            --accent-dark: #E0325F;
+            --bg: #FAF9F7;
+            --bg-white: #FFFFFF;
+            --text: #1A1A1A;
+            --text-secondary: #8A8680;
+            --border: #EDEBE8;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .card {
+            background: var(--bg-white);
+            border-radius: 24px;
+            padding: 40px 32px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 12px 40px rgba(0,0,0,0.06);
+        }
+
+        .logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            margin: 0 auto 24px;
+        }
+
+        .label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+
+        .details {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 32px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent-dark);
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px 24px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--text);
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.88;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1.5px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-secondary);
+        }
+
+        .footer-text {
+            margin-top: 24px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-text a {
+            color: var(--text-secondary);
+        }
+
+        /* Verberg details tot JS ze vult */
+        .seintje-info { display: none; }
+        .seintje-info.geladen { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <img src="/img/app-icon.png" alt="Seintje" class="logo" onerror="this.style.display='none'">
+
+    <div class="label">Seintje ontvangen</div>
+
+    <div class="seintje-info" id="seintjeInfo">
+        <h1 id="seintjeTitel"></h1>
+        <div class="details">
+            <span id="seintjeTijd"></span>
+            <div id="seintjeBadge"></div>
+        </div>
+    </div>
+
+    <noscript>
+        <h1>Je hebt een Seintje ontvangen!</h1>
+        <p class="details">Open de link op je iPhone om het seintje over te nemen.</p>
+    </noscript>
+
+    <a href="#" class="btn btn-primary" id="downloadBtn">
+        Download Seintje
+    </a>
+    <a href="#" class="btn btn-secondary" id="openBtn" style="display: none;">
+        Open in de app
+    </a>
+
+    <p class="footer-text">
+        <a href="https://seintje.eu">seintje.eu</a>
+    </p>
+</div>
+
+<script>
+(function() {
+    var freqLabels = {
+        once: 'Eenmalig', daily: 'Dagelijks', weekly: 'Wekelijks',
+        monthly: 'Maandelijks', yearly: 'Jaarlijks', custom: 'Aangepast'
+    };
+
+    // Parse URL: /share/{slug}/{freq}?t=HHmm&...
+    var parts = window.location.pathname.split('/').filter(Boolean);
+    if (parts.length < 3 || parts[0] !== 'share') return;
+
+    var slug = decodeURIComponent(parts[1]);
+    var freq = parts[2];
+    var params = new URLSearchParams(window.location.search);
+
+    // Titel van slug
+    var titel = slug.replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+
+    // Tijd
+    var tijdStr = '';
+    var t = params.get('t');
+    if (t && t.length === 4) {
+        tijdStr = t.substring(0, 2) + ':' + t.substring(2, 4);
+    }
+
+    // Frequentie label
+    var freqLabel = freqLabels[freq] || freq;
+
+    // Toon info
+    var info = document.getElementById('seintjeInfo');
+    document.getElementById('seintjeTitel').textContent = titel;
+
+    var details = [];
+    if (tijdStr) details.push(tijdStr);
+    document.getElementById('seintjeTijd').textContent = details.join(' ');
+
+    if (freq !== 'once') {
+        document.getElementById('seintjeBadge').innerHTML = '<span class="badge">' + freqLabel + '</span>';
+    }
+
+    info.classList.add('geladen');
+
+    // Open in app link (custom scheme als fallback)
+    var openBtn = document.getElementById('openBtn');
+    var appUrl = 'seintje://s/' + slug + '/' + mapFreqToOld(freq) + '/ochtend' + window.location.search;
+    openBtn.href = appUrl;
+    openBtn.style.display = 'block';
+
+    function mapFreqToOld(eng) {
+        var map = { once:'eenmalig', daily:'dagelijks', weekly:'wekelijks',
+                    monthly:'maandelijks', yearly:'jaarlijks', custom:'aangepast' };
+        return map[eng] || eng;
+    }
+})();
+</script>
+
+</body>
+</html>
