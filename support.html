@@ -29,6 +29,20 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* ── Language toggle ────────────────────────── */
+        body.lang-nl [data-lang="en"],
+        body.lang-en [data-lang="nl"] { display: none !important; }
+        .lang-toggle { display: flex; align-items: center; gap: 2px; }
+        .lang-btn {
+            background: none; border: none; cursor: pointer;
+            font-size: 0.85rem; font-weight: 600; font-family: inherit;
+            color: var(--text-secondary); padding: 4px 8px; border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .lang-btn:hover { color: var(--text); }
+        .lang-btn.active { color: var(--text); background: var(--border); }
+        .lang-sep { color: var(--border); font-size: 0.85rem; user-select: none; }
+
         /* ── Navigation ──────────────────────────────── */
         nav {
             position: fixed;
@@ -325,7 +339,7 @@
             .contact-card { padding: 24px 20px; }
             .faq-question { padding: 16px; }
             .faq-answer { padding: 0 16px 16px; }
-            .nav-links li:not(:last-child) { display: none; }
+            .nav-links li:not(:last-child):not(.nav-lang) { display: none; }
             .footer-inner {
                 flex-direction: column;
                 text-align: center;
@@ -343,9 +357,16 @@
                 <span>Seintje</span>
             </a>
             <ul class="nav-links">
-                <li><a href="index.html#functies">Functies</a></li>
+                <li><a href="index.html#functies"><span data-lang="nl">Functies</span><span data-lang="en">Features</span></a></li>
                 <li><a href="index.html#privacy">Privacy</a></li>
-                <li><a href="support.html">Hulp</a></li>
+                <li><a href="support.html"><span data-lang="nl">Hulp</span><span data-lang="en">Help</span></a></li>
+                <li class="nav-lang">
+                    <div class="lang-toggle">
+                        <button class="lang-btn" data-set-lang="nl" onclick="setLang('nl')">NL</button>
+                        <span class="lang-sep">|</span>
+                        <button class="lang-btn" data-set-lang="en" onclick="setLang('en')">EN</button>
+                    </div>
+                </li>
                 <li><a href="index.html#download" class="nav-cta">
                     <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
                     Download
@@ -356,107 +377,163 @@
 
     <!-- ── Content ─────────────────────────────────── -->
     <main>
-        <h1>Hulp &amp; Support</h1>
-        <p class="intro">Heb je een vraag over Seintje? Hieronder vind je antwoorden op de meest gestelde vragen.</p>
+        <h1><span data-lang="nl">Hulp &amp; Support</span><span data-lang="en">Help &amp; Support</span></h1>
+        <p class="intro">
+            <span data-lang="nl">Heb je een vraag over Seintje? Hieronder vind je antwoorden op de meest gestelde vragen.</span>
+            <span data-lang="en">Have a question about Seintje? Below you'll find answers to the most frequently asked questions.</span>
+        </p>
 
-        <h2>Veelgestelde vragen</h2>
+        <h2><span data-lang="nl">Veelgestelde vragen</span><span data-lang="en">Frequently asked questions</span></h2>
 
+        <!-- FAQ 1 -->
         <div class="faq-item open">
             <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
-                Ik krijg geen notificaties. Wat kan ik doen?
+                <span data-lang="nl">Ik krijg geen notificaties. Wat kan ik doen?</span>
+                <span data-lang="en">I'm not receiving notifications. What can I do?</span>
                 <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-answer">
-                <p>Controleer de volgende instellingen:</p>
-                <ol>
-                    <li>Open <strong>Instellingen</strong> op je iPhone</li>
-                    <li>Ga naar <strong>Notificaties</strong> &rarr; <strong>Seintje</strong></li>
-                    <li>Zorg dat <strong>Sta notificaties toe</strong> is ingeschakeld</li>
-                    <li>Controleer dat <strong>Schermvergrendeling</strong>, <strong>Berichtencentrum</strong> en <strong>Banners</strong> aanstaan</li>
-                </ol>
-                <p>Staat alles al aan? Probeer de app te sluiten en opnieuw te openen. Seintje plant dan automatisch je notificaties opnieuw in.</p>
+                <div data-lang="nl">
+                    <p>Controleer de volgende instellingen:</p>
+                    <ol>
+                        <li>Open <strong>Instellingen</strong> op je iPhone</li>
+                        <li>Ga naar <strong>Notificaties</strong> &rarr; <strong>Seintje</strong></li>
+                        <li>Zorg dat <strong>Sta notificaties toe</strong> is ingeschakeld</li>
+                        <li>Controleer dat <strong>Schermvergrendeling</strong>, <strong>Berichtencentrum</strong> en <strong>Banners</strong> aanstaan</li>
+                    </ol>
+                    <p>Staat alles al aan? Probeer de app te sluiten en opnieuw te openen. Seintje plant dan automatisch je notificaties opnieuw in.</p>
+                </div>
+                <div data-lang="en">
+                    <p>Check the following settings:</p>
+                    <ol>
+                        <li>Open <strong>Settings</strong> on your iPhone</li>
+                        <li>Go to <strong>Notifications</strong> &rarr; <strong>Seintje</strong></li>
+                        <li>Make sure <strong>Allow Notifications</strong> is enabled</li>
+                        <li>Check that <strong>Lock Screen</strong>, <strong>Notification Center</strong> and <strong>Banners</strong> are turned on</li>
+                    </ol>
+                    <p>Everything already enabled? Try closing the app and reopening it. Seintje will automatically reschedule your notifications.</p>
+                </div>
             </div>
         </div>
 
+        <!-- FAQ 2 -->
         <div class="faq-item">
             <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
-                Hoe wijzig ik de tijden van dagdelen?
+                <span data-lang="nl">Hoe wijzig ik de tijden van dagdelen?</span>
+                <span data-lang="en">How do I change the time-of-day periods?</span>
                 <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-answer">
-                <p>Tik op het tandwiel-icoon rechtsboven in het hoofdscherm. Daar kun je voor elk dagdeel (vroeg, ochtend, middag, namiddag, avond) de exacte tijd instellen die bij jou past.</p>
+                <p>
+                    <span data-lang="nl">Tik op het tandwiel-icoon rechtsboven in het hoofdscherm. Daar kun je voor elk dagdeel (vroeg, ochtend, middag, namiddag, avond) de exacte tijd instellen die bij jou past.</span>
+                    <span data-lang="en">Tap the gear icon in the top right of the main screen. There you can set the exact time for each period (early, morning, afternoon, late afternoon, evening) to match your schedule.</span>
+                </p>
             </div>
         </div>
 
+        <!-- FAQ 3 -->
         <div class="faq-item">
             <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
-                Wat is het verschil tussen dagdelen en een vaste tijd?
+                <span data-lang="nl">Wat is het verschil tussen dagdelen en een vaste tijd?</span>
+                <span data-lang="en">What's the difference between time periods and a fixed time?</span>
                 <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-answer">
-                <p>Dagdelen (ochtend, middag, avond, etc.) zijn een snelle manier om een herinnering in te stellen zonder precies een tijd te kiezen. De standaardtijden kun je aanpassen in de instellingen.</p>
-                <p>Wil je toch een exact tijdstip? Tik bij het aanmaken van een seintje op <strong>Eigen tijd</strong> om zelf een uur en minuut te kiezen.</p>
+                <div data-lang="nl">
+                    <p>Dagdelen (ochtend, middag, avond, etc.) zijn een snelle manier om een herinnering in te stellen zonder precies een tijd te kiezen. De standaardtijden kun je aanpassen in de instellingen.</p>
+                    <p>Wil je toch een exact tijdstip? Tik bij het aanmaken van een seintje op <strong>Eigen tijd</strong> om zelf een uur en minuut te kiezen.</p>
+                </div>
+                <div data-lang="en">
+                    <p>Time periods (morning, afternoon, evening, etc.) are a quick way to set a reminder without choosing an exact time. You can customize the default times in the settings.</p>
+                    <p>Want an exact time instead? When creating a reminder, tap <strong>Custom time</strong> to pick a specific hour and minute.</p>
+                </div>
             </div>
         </div>
 
+        <!-- FAQ 4 -->
         <div class="faq-item">
             <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
-                Hoe herstel ik een verwijderd seintje?
+                <span data-lang="nl">Hoe herstel ik een verwijderd seintje?</span>
+                <span data-lang="en">How do I restore a deleted reminder?</span>
                 <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-answer">
-                <p>Na het verwijderen of afvinken van een seintje verschijnt er kort een melding onderin het scherm met een <strong>Herstel</strong>-knop. Tik daar snel op om het ongedaan te maken.</p>
-                <p>Afgevinkte seintjes worden ook bewaard in het <strong>archief</strong>. Ga naar de instellingen en tik op <strong>Archief</strong> om ze terug te zetten.</p>
+                <div data-lang="nl">
+                    <p>Na het verwijderen of afvinken van een seintje verschijnt er kort een melding onderin het scherm met een <strong>Herstel</strong>-knop. Tik daar snel op om het ongedaan te maken.</p>
+                    <p>Afgevinkte seintjes worden ook bewaard in het <strong>archief</strong>. Ga naar de instellingen en tik op <strong>Archief</strong> om ze terug te zetten.</p>
+                </div>
+                <div data-lang="en">
+                    <p>After deleting or checking off a reminder, a brief notification appears at the bottom of the screen with an <strong>Undo</strong> button. Tap it quickly to reverse the action.</p>
+                    <p>Checked-off reminders are also saved in the <strong>archive</strong>. Go to settings and tap <strong>Archive</strong> to restore them.</p>
+                </div>
             </div>
         </div>
 
+        <!-- FAQ 5 -->
         <div class="faq-item">
             <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
-                Worden mijn gegevens ergens opgeslagen?
+                <span data-lang="nl">Worden mijn gegevens ergens opgeslagen?</span>
+                <span data-lang="en">Is my data stored anywhere?</span>
                 <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-answer">
-                <p>Nee. Al je herinneringen worden uitsluitend op je eigen telefoon opgeslagen. Er is geen account en geen tracking. Wanneer je een seintje deelt, wordt alleen de titel, herhaling en tijd in een link gecodeerd. Lees ons volledige <a href="privacy.html">privacybeleid</a> voor meer details.</p>
+                <p>
+                    <span data-lang="nl">Nee. Al je herinneringen worden uitsluitend op je eigen telefoon opgeslagen. Er is geen account en geen tracking. Wanneer je een seintje deelt, wordt alleen de titel, herhaling en tijd in een link gecodeerd. Lees ons volledige <a href="privacy.html">privacybeleid</a> voor meer details.</span>
+                    <span data-lang="en">No. All your reminders are stored exclusively on your own phone. There is no account and no tracking. When you share a reminder, only the title, recurrence and time are encoded in a link. Read our full <a href="privacy.html">privacy policy</a> for more details.</span>
+                </p>
             </div>
         </div>
 
+        <!-- FAQ 6 -->
         <div class="faq-item">
             <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
-                Hoe deel ik een seintje?
+                <span data-lang="nl">Hoe deel ik een seintje?</span>
+                <span data-lang="en">How do I share a reminder?</span>
                 <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-answer">
-                <p>Open een seintje en tik op het <strong>deel-icoon</strong> linksboven. Je krijgt een link die je via WhatsApp, iMessage of andere apps kunt versturen. De ontvanger kan het seintje met één tik overnemen in zijn eigen Seintje app.</p>
+                <p>
+                    <span data-lang="nl">Open een seintje en tik op het <strong>deel-icoon</strong> linksboven. Je krijgt een link die je via WhatsApp, iMessage of andere apps kunt versturen. De ontvanger kan het seintje met &eacute;&eacute;n tik overnemen in zijn eigen Seintje app.</span>
+                    <span data-lang="en">Open a reminder and tap the <strong>share icon</strong> in the top left. You'll get a link you can send via WhatsApp, iMessage or other apps. The recipient can adopt the reminder with a single tap in their own Seintje app.</span>
+                </p>
             </div>
         </div>
 
+        <!-- FAQ 7 -->
         <div class="faq-item">
             <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
-                Werkt Seintje op iPad of Mac?
+                <span data-lang="nl">Werkt Seintje op iPad of Mac?</span>
+                <span data-lang="en">Does Seintje work on iPad or Mac?</span>
                 <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-answer">
-                <p>Seintje is momenteel alleen beschikbaar voor iPhone. Ondersteuning voor iPad en Mac wordt mogelijk in de toekomst toegevoegd.</p>
+                <p>
+                    <span data-lang="nl">Seintje is momenteel alleen beschikbaar voor iPhone. Ondersteuning voor iPad en Mac wordt mogelijk in de toekomst toegevoegd.</span>
+                    <span data-lang="en">Seintje is currently only available for iPhone. Support for iPad and Mac may be added in the future.</span>
+                </p>
             </div>
         </div>
 
         <!-- ── Contact ───────────────────────────────── -->
         <div class="contact-card">
             <div class="icon">&#128172;</div>
-            <h2>Vraag niet beantwoord?</h2>
-            <p>Neem gerust contact met ons op. We helpen je graag verder.</p>
+            <h2><span data-lang="nl">Vraag niet beantwoord?</span><span data-lang="en">Question not answered?</span></h2>
+            <p><span data-lang="nl">Neem gerust contact met ons op. We helpen je graag verder.</span><span data-lang="en">Feel free to get in touch. We're happy to help.</span></p>
             <a href="mailto:info@designforthepeople.nl" class="contact-btn">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                Stuur een e-mail
+                <span data-lang="nl">Stuur een e-mail</span><span data-lang="en">Send an email</span>
             </a>
         </div>
 
         <!-- ── App info ──────────────────────────────── -->
         <div class="version-info">
-            <h2>Over Seintje</h2>
-            <p>Seintje is gemaakt door <strong>Design for the People B.V.</strong> in Nederland.</p>
+            <h2><span data-lang="nl">Over Seintje</span><span data-lang="en">About Seintje</span></h2>
             <p>
-                <a href="privacy.html">Privacybeleid</a>
+                <span data-lang="nl">Seintje is gemaakt door <strong>Design for the People B.V.</strong> in Nederland.</span>
+                <span data-lang="en">Seintje is made by <strong>Design for the People B.V.</strong> in the Netherlands.</span>
+            </p>
+            <p>
+                <a href="privacy.html"><span data-lang="nl">Privacybeleid</span><span data-lang="en">Privacy Policy</span></a>
             </p>
         </div>
     </main>
@@ -469,11 +546,33 @@
             </div>
             <ul class="footer-links">
                 <li><a href="index.html">Seintje</a></li>
-                <li><a href="privacy.html">Privacybeleid</a></li>
+                <li><a href="privacy.html"><span data-lang="nl">Privacybeleid</span><span data-lang="en">Privacy Policy</span></a></li>
                 <li><a href="mailto:info@designforthepeople.nl">Contact</a></li>
             </ul>
         </div>
     </footer>
+
+    <script>
+    (function() {
+        var stored = localStorage.getItem('lang');
+        var browserLang = (navigator.language || '').startsWith('en') ? 'en' : 'nl';
+        setLang(stored || browserLang);
+    })();
+    function setLang(lang) {
+        document.documentElement.lang = lang;
+        document.body.className = document.body.className.replace(/\blang-\w+/g, '');
+        document.body.classList.add('lang-' + lang);
+        var btns = document.querySelectorAll('.lang-btn');
+        for (var j = 0; j < btns.length; j++) {
+            if (btns[j].getAttribute('data-set-lang') === lang) {
+                btns[j].classList.add('active');
+            } else {
+                btns[j].classList.remove('active');
+            }
+        }
+        localStorage.setItem('lang', lang);
+    }
+    </script>
 
 </body>
 </html>

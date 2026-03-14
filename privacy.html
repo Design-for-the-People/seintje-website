@@ -29,6 +29,20 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* ── Language toggle ────────────────────────── */
+        body.lang-nl [data-lang="en"],
+        body.lang-en [data-lang="nl"] { display: none !important; }
+        .lang-toggle { display: flex; align-items: center; gap: 2px; }
+        .lang-btn {
+            background: none; border: none; cursor: pointer;
+            font-size: 0.85rem; font-weight: 600; font-family: inherit;
+            color: var(--text-secondary); padding: 4px 8px; border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .lang-btn:hover { color: var(--text); }
+        .lang-btn.active { color: var(--text); background: var(--border); }
+        .lang-sep { color: var(--border); font-size: 0.85rem; user-select: none; }
+
         /* ── Navigation ──────────────────────────────── */
         nav {
             position: fixed;
@@ -192,7 +206,7 @@
         }
 
         .check-list li::before {
-            content: "✓";
+            content: "\2713";
             color: var(--accent);
             font-weight: 700;
             font-size: 1rem;
@@ -252,7 +266,7 @@
             main { padding: 100px 20px 64px; }
             h1 { font-size: 1.6rem; }
             .summary { padding: 20px; }
-            .nav-links li:not(:last-child) { display: none; }
+            .nav-links li:not(:last-child):not(.nav-lang) { display: none; }
             .footer-inner {
                 flex-direction: column;
                 text-align: center;
@@ -270,9 +284,16 @@
                 <span>Seintje</span>
             </a>
             <ul class="nav-links">
-                <li><a href="index.html#functies">Functies</a></li>
+                <li><a href="index.html#functies"><span data-lang="nl">Functies</span><span data-lang="en">Features</span></a></li>
                 <li><a href="index.html#privacy">Privacy</a></li>
-                <li><a href="support.html">Hulp</a></li>
+                <li><a href="support.html"><span data-lang="nl">Hulp</span><span data-lang="en">Help</span></a></li>
+                <li class="nav-lang">
+                    <div class="lang-toggle">
+                        <button class="lang-btn" data-set-lang="nl" onclick="setLang('nl')">NL</button>
+                        <span class="lang-sep">|</span>
+                        <button class="lang-btn" data-set-lang="en" onclick="setLang('en')">EN</button>
+                    </div>
+                </li>
                 <li><a href="index.html#download" class="nav-cta">
                     <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
                     Download
@@ -283,55 +304,110 @@
 
     <!-- ── Content ─────────────────────────────────── -->
     <main>
-        <h1>Privacybeleid</h1>
-        <p class="datum">Laatst bijgewerkt: 8 maart 2026</p>
+        <h1><span data-lang="nl">Privacybeleid</span><span data-lang="en">Privacy Policy</span></h1>
+        <p class="datum">
+            <span data-lang="nl">Laatst bijgewerkt: 8 maart 2026</span>
+            <span data-lang="en">Last updated: March 8, 2026</span>
+        </p>
 
         <div class="summary">
-            <p>Seintje verzamelt geen persoonlijke gegevens en bevat geen tracking of analytics. Al je herinneringen blijven op je eigen apparaat.</p>
+            <p>
+                <span data-lang="nl">Seintje verzamelt geen persoonlijke gegevens en bevat geen tracking of analytics. Al je herinneringen blijven op je eigen apparaat.</span>
+                <span data-lang="en">Seintje does not collect any personal data and contains no tracking or analytics. All your reminders stay on your own device.</span>
+            </p>
         </div>
 
-        <h2>Welke gegevens verwerkt Seintje?</h2>
+        <!-- NL content -->
+        <div data-lang="nl">
+            <h2>Welke gegevens verwerkt Seintje?</h2>
 
-        <h3>Herinneringen</h3>
-        <p>De herinneringen die je aanmaakt (titel, notitie, datum, herhaling) worden uitsluitend lokaal op je apparaat opgeslagen. Deze gegevens verlaten je apparaat niet.</p>
+            <h3>Herinneringen</h3>
+            <p>De herinneringen die je aanmaakt (titel, notitie, datum, herhaling) worden uitsluitend lokaal op je apparaat opgeslagen. Deze gegevens verlaten je apparaat niet.</p>
 
-        <h3>Instellingen</h3>
-        <p>Je voorkeuren voor dagdeel-tijden en weergave worden lokaal opgeslagen. Deze worden niet gedeeld met derden.</p>
+            <h3>Instellingen</h3>
+            <p>Je voorkeuren voor dagdeel-tijden en weergave worden lokaal opgeslagen. Deze worden niet gedeeld met derden.</p>
 
-        <h3>Notificaties</h3>
-        <p>Seintje vraagt toestemming om lokale notificaties te versturen. Deze notificaties worden volledig door iOS op je apparaat afgehandeld. Er wordt geen data naar externe servers gestuurd.</p>
+            <h3>Notificaties</h3>
+            <p>Seintje vraagt toestemming om lokale notificaties te versturen. Deze notificaties worden volledig door iOS op je apparaat afgehandeld. Er wordt geen data naar externe servers gestuurd.</p>
 
-        <h2>Delen van seintjes</h2>
-        <p>Wanneer je een seintje deelt, wordt de titel, herhaling en tijd gecodeerd in een link (bijv. seintje.eu/share/boodschappen/weekly?t=0930). Er wordt geen persoonlijke informatie meegestuurd. De link bevat alleen de informatie die nodig is om het seintje over te nemen.</p>
-        <p>Als de ontvanger de app niet heeft ge&iuml;nstalleerd, wordt een webpagina getoond op seintje.eu. Deze pagina is statisch en plaatst geen cookies.</p>
+            <h2>Delen van seintjes</h2>
+            <p>Wanneer je een seintje deelt, wordt de titel, herhaling en tijd gecodeerd in een link (bijv. seintje.eu/share/boodschappen/weekly?t=0930). Er wordt geen persoonlijke informatie meegestuurd. De link bevat alleen de informatie die nodig is om het seintje over te nemen.</p>
+            <p>Als de ontvanger de app niet heeft ge&iuml;nstalleerd, wordt een webpagina getoond op seintje.eu. Deze pagina is statisch en plaatst geen cookies.</p>
 
-        <h2>Wat Seintje niet doet</h2>
-        <ul class="check-list">
-            <li>Geen persoonlijke gegevens verzamelen of opslaan op servers</li>
-            <li>Geen analytics of tracking</li>
-            <li>Geen advertenties tonen</li>
-            <li>Geen toegang tot je locatie, camera, contacten, foto's of microfoon</li>
-            <li>Geen account vereist</li>
-        </ul>
+            <h2>Wat Seintje niet doet</h2>
+            <ul class="check-list">
+                <li>Geen persoonlijke gegevens verzamelen of opslaan op servers</li>
+                <li>Geen analytics of tracking</li>
+                <li>Geen advertenties tonen</li>
+                <li>Geen toegang tot je locatie, camera, contacten, foto's of microfoon</li>
+                <li>Geen account vereist</li>
+            </ul>
 
-        <h2>Website</h2>
-        <p>De website seintje.eu is een statische website. Bij het openen van een deellink wordt de pagina geladen. Er worden geen cookies geplaatst en geen persoonlijke gegevens verzameld.</p>
+            <h2>Website</h2>
+            <p>De website seintje.eu is een statische website. Bij het openen van een deellink wordt de pagina geladen. Er worden geen cookies geplaatst en geen persoonlijke gegevens verzameld.</p>
 
-        <h2>Gegevensopslag</h2>
-        <p>Alle gegevens worden lokaal opgeslagen op je apparaat. Bij het verwijderen van de app worden alle gegevens permanent verwijderd.</p>
+            <h2>Gegevensopslag</h2>
+            <p>Alle gegevens worden lokaal opgeslagen op je apparaat. Bij het verwijderen van de app worden alle gegevens permanent verwijderd.</p>
 
-        <h2>Kinderen</h2>
-        <p>Seintje verzamelt geen gegevens van wie dan ook, inclusief kinderen. De app is geschikt voor alle leeftijden.</p>
+            <h2>Kinderen</h2>
+            <p>Seintje verzamelt geen gegevens van wie dan ook, inclusief kinderen. De app is geschikt voor alle leeftijden.</p>
 
-        <h2>Wijzigingen</h2>
-        <p>Bij wijzigingen in dit privacybeleid wordt de datum bovenaan deze pagina aangepast.</p>
+            <h2>Wijzigingen</h2>
+            <p>Bij wijzigingen in dit privacybeleid wordt de datum bovenaan deze pagina aangepast.</p>
 
-        <h2>Contact</h2>
-        <p>
-            Voor vragen over dit privacybeleid kun je contact opnemen met:<br>
-            Design for the People B.V.<br>
-            E-mail: <a href="mailto:info@designforthepeople.nl">info@designforthepeople.nl</a>
-        </p>
+            <h2>Contact</h2>
+            <p>
+                Voor vragen over dit privacybeleid kun je contact opnemen met:<br>
+                Design for the People B.V.<br>
+                E-mail: <a href="mailto:info@designforthepeople.nl">info@designforthepeople.nl</a>
+            </p>
+        </div>
+
+        <!-- EN content -->
+        <div data-lang="en">
+            <h2>What data does Seintje process?</h2>
+
+            <h3>Reminders</h3>
+            <p>The reminders you create (title, note, date, recurrence) are stored exclusively on your device. This data never leaves your device.</p>
+
+            <h3>Settings</h3>
+            <p>Your preferences for time-of-day periods and display settings are stored locally. These are not shared with third parties.</p>
+
+            <h3>Notifications</h3>
+            <p>Seintje asks permission to send local notifications. These notifications are handled entirely by iOS on your device. No data is sent to external servers.</p>
+
+            <h2>Sharing reminders</h2>
+            <p>When you share a reminder, the title, recurrence and time are encoded in a link (e.g. seintje.eu/share/groceries/weekly?t=0930). No personal information is included. The link only contains the information needed to adopt the reminder.</p>
+            <p>If the recipient does not have the app installed, a web page is shown on seintje.eu. This page is static and does not place any cookies.</p>
+
+            <h2>What Seintje does not do</h2>
+            <ul class="check-list">
+                <li>Does not collect or store personal data on servers</li>
+                <li>No analytics or tracking</li>
+                <li>No advertisements</li>
+                <li>No access to your location, camera, contacts, photos or microphone</li>
+                <li>No account required</li>
+            </ul>
+
+            <h2>Website</h2>
+            <p>The website seintje.eu is a static website. When opening a share link, the page is loaded. No cookies are placed and no personal data is collected.</p>
+
+            <h2>Data storage</h2>
+            <p>All data is stored locally on your device. When you delete the app, all data is permanently removed.</p>
+
+            <h2>Children</h2>
+            <p>Seintje does not collect data from anyone, including children. The app is suitable for all ages.</p>
+
+            <h2>Changes</h2>
+            <p>If this privacy policy is updated, the date at the top of this page will be adjusted.</p>
+
+            <h2>Contact</h2>
+            <p>
+                For questions about this privacy policy, you can contact:<br>
+                Design for the People B.V.<br>
+                Email: <a href="mailto:info@designforthepeople.nl">info@designforthepeople.nl</a>
+            </p>
+        </div>
     </main>
 
     <!-- ── Footer ──────────────────────────────────── -->
@@ -342,11 +418,33 @@
             </div>
             <ul class="footer-links">
                 <li><a href="index.html">Seintje</a></li>
-                <li><a href="support.html">Hulp</a></li>
+                <li><a href="support.html"><span data-lang="nl">Hulp</span><span data-lang="en">Help</span></a></li>
                 <li><a href="mailto:info@designforthepeople.nl">Contact</a></li>
             </ul>
         </div>
     </footer>
+
+    <script>
+    (function() {
+        var stored = localStorage.getItem('lang');
+        var browserLang = (navigator.language || '').startsWith('en') ? 'en' : 'nl';
+        setLang(stored || browserLang);
+    })();
+    function setLang(lang) {
+        document.documentElement.lang = lang;
+        document.body.className = document.body.className.replace(/\blang-\w+/g, '');
+        document.body.classList.add('lang-' + lang);
+        var btns = document.querySelectorAll('.lang-btn');
+        for (var j = 0; j < btns.length; j++) {
+            if (btns[j].getAttribute('data-set-lang') === lang) {
+                btns[j].classList.add('active');
+            } else {
+                btns[j].classList.remove('active');
+            }
+        }
+        localStorage.setItem('lang', lang);
+    }
+    </script>
 
 </body>
 </html>

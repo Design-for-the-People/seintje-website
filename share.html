@@ -217,7 +217,8 @@
 
     // Open in app link (custom scheme als fallback)
     var openBtn = document.getElementById('openBtn');
-    var appUrl = 'seintje://s/' + slug + '/' + mapFreqToOld(freq) + '/ochtend' + window.location.search;
+    var dagdeel = dichtsbijzijndeDagdeel(t);
+    var appUrl = 'seintje://s/' + slug + '/' + mapFreqToOld(freq) + '/' + dagdeel + window.location.search;
     openBtn.href = appUrl;
     openBtn.style.display = 'block';
 
@@ -225,6 +226,32 @@
         var map = { once:'eenmalig', daily:'dagelijks', weekly:'wekelijks',
                     monthly:'maandelijks', yearly:'jaarlijks', custom:'aangepast' };
         return map[eng] || eng;
+    }
+
+    function dichtsbijzijndeDagdeel(tParam) {
+        // Standaard dagdeel-tijden (uur * 60 + minuut)
+        var dagdelen = [
+            { naam: 'vroeg', min: 7 * 60 },
+            { naam: 'ochtend', min: 9 * 60 + 30 },
+            { naam: 'middag', min: 13 * 60 },
+            { naam: 'namiddag', min: 16 * 60 + 30 },
+            { naam: 'avond', min: 20 * 60 }
+        ];
+        if (!tParam || tParam.length !== 4) return 'ochtend';
+        var uur = parseInt(tParam.substring(0, 2), 10);
+        var minuut = parseInt(tParam.substring(2, 4), 10);
+        if (isNaN(uur) || isNaN(minuut)) return 'ochtend';
+        var totaal = uur * 60 + minuut;
+        var beste = 'ochtend';
+        var kleinsteVerschil = Infinity;
+        for (var i = 0; i < dagdelen.length; i++) {
+            var verschil = Math.abs(totaal - dagdelen[i].min);
+            if (verschil < kleinsteVerschil) {
+                kleinsteVerschil = verschil;
+                beste = dagdelen[i].naam;
+            }
+        }
+        return beste;
     }
 })();
 </script>

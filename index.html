@@ -43,6 +43,20 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
+        /* ── Language toggle ────────────────────────── */
+        body.lang-nl [data-lang="en"],
+        body.lang-en [data-lang="nl"] { display: none !important; }
+        .lang-toggle { display: flex; align-items: center; gap: 2px; }
+        .lang-btn {
+            background: none; border: none; cursor: pointer;
+            font-size: 0.85rem; font-weight: 600; font-family: inherit;
+            color: var(--text-secondary); padding: 4px 8px; border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .lang-btn:hover { color: var(--text); }
+        .lang-btn.active { color: var(--text); background: var(--border); }
+        .lang-sep { color: var(--border); font-size: 0.85rem; user-select: none; }
+
         /* ── Typography ─────────────────────────────── */
         h1, h2, h3 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; }
         h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); }
@@ -474,6 +488,10 @@
                 display: none;
             }
 
+            .lang-toggle {
+                gap: 1px;
+            }
+
             .footer-inner {
                 flex-direction: column;
                 text-align: center;
@@ -499,14 +517,20 @@
     <nav>
         <div class="container">
             <a href="index.html" class="nav-logo">
-                <!-- Vervang dit door je echte app-icoon -->
                 <img src="img/app-icon.png" alt="Seintje" class="nav-logo-icon" onerror="this.style.display='none'">
                 <span>Seintje</span>
             </a>
             <ul class="nav-links">
-                <li><a href="#functies" class="nav-link-text">Functies</a></li>
+                <li><a href="#functies" class="nav-link-text"><span data-lang="nl">Functies</span><span data-lang="en">Features</span></a></li>
                 <li><a href="#privacy" class="nav-link-text">Privacy</a></li>
-                <li><a href="support.html" class="nav-link-text">Hulp</a></li>
+                <li><a href="support.html" class="nav-link-text"><span data-lang="nl">Hulp</span><span data-lang="en">Help</span></a></li>
+                <li>
+                    <div class="lang-toggle">
+                        <button class="lang-btn" data-set-lang="nl" onclick="setLang('nl')">NL</button>
+                        <span class="lang-sep">|</span>
+                        <button class="lang-btn" data-set-lang="en" onclick="setLang('en')">EN</button>
+                    </div>
+                </li>
                 <li><a href="#download" class="nav-cta">
                     <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
                     Download
@@ -520,22 +544,33 @@
         <div class="container">
             <div class="hero-badge">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-                Beschikbaar voor iPhone
+                <span data-lang="nl">Beschikbaar voor iPhone</span>
+                <span data-lang="en">Available for iPhone</span>
             </div>
-            <h1>Simpelweg niets vergeten.</h1>
-            <p>Stuur jezelf seintjes, zodat je simpelweg niets vergeet. Geen ingewikkelde to-do app, geen mailtjes naar jezelf en dan alsnog het vergeten. Gewoon een simpele herinnering op het juiste moment.</p>
+            <h1>
+                <span data-lang="nl">Simpelweg niets vergeten.</span>
+                <span data-lang="en">Simply never forget.</span>
+            </h1>
+            <p>
+                <span data-lang="nl">Stuur jezelf seintjes, zodat je simpelweg niets vergeet. Geen ingewikkelde to-do app, geen mailtjes naar jezelf en dan alsnog het vergeten. Gewoon een simpele herinnering op het juiste moment.</span>
+                <span data-lang="en">Send yourself little reminders, so you simply never forget. No complicated to-do app, no emails to yourself that you still forget about. Just a simple reminder at the right moment.</span>
+            </p>
             <div class="hero-buttons">
                 <a href="#download" class="btn-primary">
                     <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-                    Download in de App Store
+                    <span data-lang="nl">Download in de App Store</span>
+                    <span data-lang="en">Download on the App Store</span>
                 </a>
-                <a href="#functies" class="btn-secondary">Meer weten</a>
+                <a href="#functies" class="btn-secondary">
+                    <span data-lang="nl">Meer weten</span>
+                    <span data-lang="en">Learn more</span>
+                </a>
             </div>
 
             <!-- Phone Screenshot -->
             <div class="hero-visual">
                 <div class="phone-frame">
-                    <img src="img/screenshot-home.png" alt="Seintje app — hoofdscherm met herinneringen" loading="lazy">
+                    <img src="img/screenshot-home.png" alt="Seintje app" loading="lazy">
                 </div>
             </div>
         </div>
@@ -544,44 +579,50 @@
     <!-- ── Features ────────────────────────────────── -->
     <section class="features" id="functies">
         <div class="container">
-            <h2>Waarom Seintje?</h2>
-            <p class="features-subtitle">Voor iedereen die niet houdt van productiviteitsapps, maar wel af en toe iets niet wil vergeten.</p>
+            <h2>
+                <span data-lang="nl">Waarom Seintje?</span>
+                <span data-lang="en">Why Seintje?</span>
+            </h2>
+            <p class="features-subtitle">
+                <span data-lang="nl">Voor iedereen die niet houdt van productiviteitsapps, maar wel af en toe iets niet wil vergeten.</span>
+                <span data-lang="en">For everyone who doesn't like productivity apps, but still doesn't want to forget things.</span>
+            </p>
 
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">&#9889;</div>
-                    <h3>Razendsnel instellen</h3>
-                    <p>Geen stappen, geen wizard. Kies wat, wanneer en hoe laat. Klaar.</p>
+                    <h3><span data-lang="nl">Razendsnel instellen</span><span data-lang="en">Lightning fast setup</span></h3>
+                    <p><span data-lang="nl">Geen stappen, geen wizard. Kies wat, wanneer en hoe laat. Klaar.</span><span data-lang="en">No steps, no wizard. Pick what, when and what time. Done.</span></p>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">&#128257;</div>
-                    <h3>Herhalingen</h3>
-                    <p>Dagelijks, wekelijks, maandelijks of aangepast. Seintje onthoudt het voor je.</p>
+                    <h3><span data-lang="nl">Herhalingen</span><span data-lang="en">Recurring reminders</span></h3>
+                    <p><span data-lang="nl">Dagelijks, wekelijks, maandelijks of aangepast. Seintje onthoudt het voor je.</span><span data-lang="en">Daily, weekly, monthly or custom. Seintje remembers it for you.</span></p>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">&#128161;</div>
-                    <h3>60+ inspiratie-suggesties</h3>
-                    <p>Planten water geven, vuilnis buitenzetten, medicijnen innemen, etcetera.</p>
+                    <h3><span data-lang="nl">60+ inspiratie-suggesties</span><span data-lang="en">60+ inspiration templates</span></h3>
+                    <p><span data-lang="nl">Planten water geven, vuilnis buitenzetten, medicijnen innemen, etcetera.</span><span data-lang="en">Water the plants, take out the trash, take your medication, and more.</span></p>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">&#128274;</div>
-                    <h3>Volledig privé</h3>
-                    <p>Geen account, geen tracking. Je seintjes blijven op jouw telefoon.</p>
+                    <h3><span data-lang="nl">Volledig priv&eacute;</span><span data-lang="en">Fully private</span></h3>
+                    <p><span data-lang="nl">Geen account, geen tracking. Je seintjes blijven op jouw telefoon.</span><span data-lang="en">No account, no tracking. Your reminders stay on your phone.</span></p>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">&#128268;</div>
-                    <h3>Werkt offline, altijd</h3>
-                    <p>Geen internetverbinding nodig. Seintje werkt overal.</p>
+                    <h3><span data-lang="nl">Werkt offline, altijd</span><span data-lang="en">Works offline, always</span></h3>
+                    <p><span data-lang="nl">Geen internetverbinding nodig. Seintje werkt overal.</span><span data-lang="en">No internet connection needed. Seintje works everywhere.</span></p>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">&#128279;</div>
-                    <h3>Deel met anderen</h3>
-                    <p>Stuur een seintje naar iemand via een link. Handig voor huisgenoten, collega's of vrienden.</p>
+                    <h3><span data-lang="nl">Deel met anderen</span><span data-lang="en">Share with others</span></h3>
+                    <p><span data-lang="nl">Stuur een seintje naar iemand via een link. Handig voor huisgenoten, collega's of vrienden.</span><span data-lang="en">Send a reminder to someone via a link. Great for housemates, colleagues or friends.</span></p>
                 </div>
             </div>
         </div>
@@ -592,27 +633,38 @@
         <div class="container">
             <div class="privacy-card">
                 <div class="feature-icon" style="margin: 0 auto 24px; font-size: 1.8rem;">&#128737;&#65039;</div>
-                <h2>Je seintjes blijven op jouw telefoon.</h2>
-                <p>Volledig privé. Geen account, geen tracking. Alleen als je zelf een seintje deelt, wordt een link aangemaakt.</p>
+                <h2>
+                    <span data-lang="nl">Je seintjes blijven op jouw telefoon.</span>
+                    <span data-lang="en">Your reminders stay on your phone.</span>
+                </h2>
+                <p>
+                    <span data-lang="nl">Volledig priv&eacute;. Geen account, geen tracking. Alleen als je zelf een seintje deelt, wordt een link aangemaakt.</span>
+                    <span data-lang="en">Fully private. No account, no tracking. A link is only created when you choose to share a reminder.</span>
+                </p>
                 <ul class="privacy-list">
                     <li>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                        Geen tracking
+                        <span data-lang="nl">Geen tracking</span><span data-lang="en">No tracking</span>
                     </li>
                     <li>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                        Geen analytics
+                        <span data-lang="nl">Geen analytics</span><span data-lang="en">No analytics</span>
                     </li>
                     <li>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                        Geen advertenties
+                        <span data-lang="nl">Geen advertenties</span><span data-lang="en">No ads</span>
                     </li>
                     <li>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                        Geen account nodig
+                        <span data-lang="nl">Geen account nodig</span><span data-lang="en">No account needed</span>
                     </li>
                 </ul>
-                <p style="margin-top: 24px; margin-bottom: 0;"><a href="privacy.html" style="color: var(--accent-dark); font-weight: 600; text-decoration: underline;">Lees het volledige privacybeleid &rarr;</a></p>
+                <p style="margin-top: 24px; margin-bottom: 0;">
+                    <a href="privacy.html" style="color: var(--accent-dark); font-weight: 600; text-decoration: underline;">
+                        <span data-lang="nl">Lees het volledige privacybeleid &rarr;</span>
+                        <span data-lang="en">Read the full privacy policy &rarr;</span>
+                    </a>
+                </p>
             </div>
         </div>
     </section>
@@ -620,11 +672,18 @@
     <!-- ── CTA ─────────────────────────────────────── -->
     <section class="cta" id="download">
         <div class="container">
-            <h2>Simpelweg niets vergeten.</h2>
-            <p>Download Seintje gratis en stel je eerste herinnering in.</p>
+            <h2>
+                <span data-lang="nl">Simpelweg niets vergeten.</span>
+                <span data-lang="en">Simply never forget.</span>
+            </h2>
+            <p>
+                <span data-lang="nl">Download Seintje gratis en stel je eerste herinnering in.</span>
+                <span data-lang="en">Download Seintje for free and set your first reminder.</span>
+            </p>
             <a href="#" class="btn-primary">
                 <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-                Download in de App Store
+                <span data-lang="nl">Download in de App Store</span>
+                <span data-lang="en">Download on the App Store</span>
             </a>
         </div>
     </section>
@@ -637,13 +696,35 @@
                     &copy; 2026 Design for the People B.V.
                 </div>
                 <ul class="footer-links">
-                    <li><a href="support.html">Hulp</a></li>
-                    <li><a href="privacy.html">Privacybeleid</a></li>
+                    <li><a href="support.html"><span data-lang="nl">Hulp</span><span data-lang="en">Help</span></a></li>
+                    <li><a href="privacy.html"><span data-lang="nl">Privacybeleid</span><span data-lang="en">Privacy Policy</span></a></li>
                     <li><a href="mailto:info@designforthepeople.nl">Contact</a></li>
                 </ul>
             </div>
         </div>
     </footer>
+
+    <script>
+    (function() {
+        var stored = localStorage.getItem('lang');
+        var browserLang = (navigator.language || '').startsWith('en') ? 'en' : 'nl';
+        setLang(stored || browserLang);
+    })();
+    function setLang(lang) {
+        document.documentElement.lang = lang;
+        document.body.className = document.body.className.replace(/\blang-\w+/g, '');
+        document.body.classList.add('lang-' + lang);
+        var btns = document.querySelectorAll('.lang-btn');
+        for (var j = 0; j < btns.length; j++) {
+            if (btns[j].getAttribute('data-set-lang') === lang) {
+                btns[j].classList.add('active');
+            } else {
+                btns[j].classList.remove('active');
+            }
+        }
+        localStorage.setItem('lang', lang);
+    }
+    </script>
 
 </body>
 </html>
