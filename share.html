@@ -175,6 +175,16 @@
 
 <script>
 (function() {
+    var APP_STORE_URL = 'https://apps.apple.com/app/seintje/id6759715560';
+    // Zodra de Android-app live is in de Play Store:
+    // 'https://play.google.com/store/apps/details?id=nl.designforthepeople.seintje'
+    var PLAY_STORE_URL = null;
+
+    // Downloadknop altijd vullen, ook als de share-URL niet parseert
+    var isAndroid = /Android/i.test(navigator.userAgent);
+    document.getElementById('downloadBtn').href =
+        (isAndroid ? PLAY_STORE_URL : APP_STORE_URL) || 'https://seintje.eu';
+
     var freqLabels = {
         once: 'Eenmalig', daily: 'Dagelijks', weekly: 'Wekelijks',
         monthly: 'Maandelijks', yearly: 'Jaarlijks', custom: 'Aangepast'
@@ -229,12 +239,10 @@
     }
 
     function dichtsbijzijndeDagdeel(tParam) {
-        // Standaard dagdeel-tijden (uur * 60 + minuut)
+        // Standaard dagdeel-tijden (uur * 60 + minuut) — zelfde drie dagdelen als de apps
         var dagdelen = [
-            { naam: 'vroeg', min: 7 * 60 },
             { naam: 'ochtend', min: 9 * 60 + 30 },
             { naam: 'middag', min: 13 * 60 },
-            { naam: 'namiddag', min: 16 * 60 + 30 },
             { naam: 'avond', min: 20 * 60 }
         ];
         if (!tParam || tParam.length !== 4) return 'ochtend';
